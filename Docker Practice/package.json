@@ -1,0 +1,12 @@
+{
+  "name": "sum-html-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app that displays the sum of two numbers in an HTML page.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

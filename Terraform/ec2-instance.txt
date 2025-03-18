@@ -1,0 +1,22 @@
+# ec2-instance.tf
+
+# Resource Block
+resource "aws_instance" "ec2demo" {
+  ami           = "ami-06f621d90fa29f6d0" # Amazon Linux in us-east-1, update as per your region
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.public.id  # Use the public subnet ID here
+  vpc_security_group_ids = [aws_security_group.web_sg.id]  # Use the security group ID here
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y httpd
+              systemctl start httpd
+              systemctl enable httpd
+              echo "<html><h1>Hello from Terraform</h1></html>" > /var/www/html/index.html
+              EOF
+
+  tags = {
+    Name = "web-server"
+  }
+}

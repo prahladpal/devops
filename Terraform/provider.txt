@@ -1,0 +1,17 @@
+# terraform-provider.tf
+
+# Terraform Settings Block
+terraform {
+  required_providers {
+    aws = {
+      source  = hashicorpaws
+      #version = ~ 3.21 # Optional but recommended in production
+    }
+  }
+}
+
+# Provider Block
+provider aws {
+  profile = default # AWS Credentials Profile configured on your local desktop terminal  $HOME.awscredentials
+  region  = us-east-1
+}

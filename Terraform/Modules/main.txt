@@ -1,0 +1,31 @@
+# main.tf
+
+module "vpc" {
+  source = "./modules/vpc"
+
+  vpc_cidr = "10.0.0.0/16"
+  vpc_name = "main-vpc"
+}
+
+module "subnet" {
+  source = "./modules/subnet"
+
+  vpc_id                 = module.vpc.vpc_id
+  public_subnet_cidr     = "10.0.1.0/24"
+  private_subnet_cidr    = "10.0.2.0/24"
+  availability_zone      = "us-east-1a"
+  public_subnet_name     = "public-subnet"
+  private_subnet_name    = "private-subnet"
+  internet_gateway_name  = "main-gateway"
+  public_route_table_name = "public-route-table"
+}
+
+module "ec2" {
+  source = "./modules/ec2"
+
+  ami_id            = "ami-06f621d90fa29f6d0"  # Update this as per your region
+  instance_type     = "t2.micro"
+  subnet_id         = module.subnet.public_subnet_id
+  key_name          = "my-key-pair"  # Ensure this key pair exists in your AWS account
+  security_group_id = aws_security_group.web_sg.id
+}

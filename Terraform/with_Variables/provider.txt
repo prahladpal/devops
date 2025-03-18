@@ -1,0 +1,6 @@
+# terraform-provider.tf
+# Provider Block
+provider "aws" {
+  profile = "default" # AWS Credentials Profile configured on your local desktop terminal  $HOME.awscredentials
+  region  = "us-east-1"
+}

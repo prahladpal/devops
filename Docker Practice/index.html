@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum Calculator</title>
+</head>
+<body>
+    <h1>Sum Calculation</h1>
+    <p>The sum of 5 + 3 is: <span id="result"></span></p>
+
+    <script>
+        fetch('/sum')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.result;
+            });
+    </script>
+</body>
+</html>

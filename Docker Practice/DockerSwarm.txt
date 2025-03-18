@@ -1,0 +1,8 @@
+docker swarm join --token SWMTKN-1-24y6kqq0rvcqdzywr6bg9320zd6njvv6vjkkkedf75pubxuabh-czdus4gu7r7y1mssen0xkfkf6 172.31.19.97:2377
+
+docker service create --name sum-app \
+  --replicas 2 \
+  --publish 3002:3000 \
+  prahladpal/sum-html-app
+
+## --publish <exposer service port>:<container port>

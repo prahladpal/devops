@@ -1,0 +1,132 @@
+1) Create the instance in AWS
+2) run "sudo apt update" for ubuntu or "sudo yum update" for amazon linux to update the packages
+3) install docker using "sudo install docker.io"
+4) Check if docker is installed or not, using "docker --version"
+5) Start creating the docker steps for the creation of image and uploading to docker hub.
+
+Note -: If dockerhub account not exist then create it.
+
+5a) create the folder to place the docker file
+5b) create the Dockerfile based on your requirement, i used the below to have an html page with sum
+
+# Use Node.js as the base image
+FROM node:18
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy application files into the container
+COPY index.html server.js package.json /app/
+
+# Install dependencies
+RUN npm install express
+
+# Expose port 3000
+EXPOSE 3000
+
+# Run the application
+CMD ["node", "server.js"]
+
+5c) create the index.html, server.js and package.jdon file for moving it to container to run the app
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum Calculator</title>
+</head>
+<body>
+    <h1>Sum Calculation</h1>
+    <p>The sum of 5 + 3 is: <span id="result"></span></p>
+
+    <script>
+        fetch('/sum')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.result;
+            });
+    </script>
+</body>
+</html>
+
+server.js
+const express = require('express');
+const app = express();
+
+// Serve static HTML
+app.use(express.static(__dirname));
+
+// API endpoint to return the sum
+app.get('/sum', (req, res) => {
+    const sum = 5 + 3;
+    res.json({ result: sum });
+});
+
+// Start the server on port 3000
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
+
+package.json
+
+{
+  "name": "sum-html-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app that displays the sum of two numbers in an HTML page.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
+
+5d) create the image of the dockerfile
+sudo docker build -t sum-html-app .
+5e) create and run the container using the image
+sudo docker run -d --name sum-app -p 3000:3000 sum-html-app
+sudo docker run -d --name <container name> -p <exposedport>:<containerport> name of the image
+
+5f) Push the image to docker hub
+# use "sudo docker login", add your username and password
+
+5g) create the tag for image
+sudo docker tag sum-html-app prahladpal/sum-html-app:v1
+sudo docker tag <name of the image> <username>/<name of the image>:<version>
+
+5h) push the image with tag
+sudo docker push prahladpal/sum-html-app:v1
+sudo docker push <username>/<name of the image>:<version>
+
+5i) Create the cluster using SWARM for docker
+initialize--
+sudo docker swarm init --advertise-addr <private ip of manager node>
+
+the above command generates token <<see DockerSwarm file>> which will be used to run on the worker node, so that the worker is part of swarm cluster.
+
+5j) check the nodes
+sudo docker nodes ps
+the above command will show the nodes present in swarm
+
+5k) create a service which will be used to expose as a port for all the nodes including manager and worker
+docker service create --name sum-app \
+  --replicas 2 \
+  --publish 3002:3000 \
+  <your-dockerhub-username>/sum-html-app
+
+--publish 3002:3000 → Maps external port 3002 to container's internal 3000.
+--replicas 2 → Runs the app on two nodes.
+
+5l) use docker service to check if all nodes are up and running on the respective post
+docker service ls
+
+5m) To check which nodes are running containers:
+docker service ps sum-app
+
+5n) if port not open on instance, then open it using custom tcp on security group.
+
+check in browser whether it is up and running for all nodes
+
+http://3.84.184.228:3002/
