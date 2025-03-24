@@ -1,0 +1,52 @@
+1) Creating a single container pod. Use the below yaml file (firstPod.yaml)
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: first-pod
+spec:
+ containers:
+ - name: myfirstk8container  ## No spaces and uppercase
+   image: prahladpal/k8-cluster-html:1.0
+
+
+kubectl create -f firstPod.yaml
+kubectl get pods
+kubectl describe pod first-pod
+
+2) Exposing the container on nodeport so that it is accessible from Web
+
+apiVersion: v1
+kind: Service
+metadata:
+ name: my-first-service
+spec:
+ selector:
+  app: first-pod
+ ports:
+  - protocol: TCP           
+    port: 80
+    targetPort: 80
+    nodePort: 30009         # NodePort (30000-32767 range)
+ type: NodePort
+
+app: first-pod: Ensure your pod has the label app: first-pod.
+port: 80: Port exposed by the service.
+targetPort: 80: The actual container port where your app is running.
+nodePort: 30009: External port accessible from your browser using http://<NodeIP>:30009.
+type: NodePort: Allows external access via the Node IP.
+
+Note: Ensure Syntax are correct and also the each parameter is case sensitive, please check thoroughly.
+
+
+Command -:
+Check syntax -:
+kubectl apply --dry-run=client -f service.yaml
+
+Apply -:
+kubectl apply -f service.yaml
+
+Describe the service -
+kubectl describe svc my-first-service
+
+make sure the lables matches
