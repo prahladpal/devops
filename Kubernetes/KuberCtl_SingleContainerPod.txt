@@ -8,7 +8,27 @@ spec:
  containers:
  - name: myfirstk8container  ## No spaces and uppercase
    image: prahladpal/k8-cluster-html:1.0
+   ports:
+   - containerPort: 80
 
+
+apiVersion: v1
+kind: Deployment
+metadata:
+ name: first-pod
+spec:
+ replicas: 3
+ selector:
+  matchLabels:
+   app: first-pod
+ template:
+  metadata:
+   labels:
+    app: first-pod
+  spec:
+   containers:
+   - name: myfirstk8container  ## No spaces and uppercase
+     image: prahladpal/k8-cluster-html:1.0
 
 kubectl create -f firstPod.yaml
 kubectl get pods
@@ -30,10 +50,54 @@ spec:
     nodePort: 30009         # NodePort (30000-32767 range)
  type: NodePort
 
+
+
+
+--------------------------------------------------------updated-----------------------------------------------------------
+
+1) Creating a pod and deploy usng deployment kind. Use the below yaml file (firstPod.yaml)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-pod-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: first-pod
+  template:
+    metadata:
+      labels:
+        app: first-pod
+    spec:
+      containers:
+      - name: k8-cluster
+        image: prahladpal/k8-cluster-html:1.0
+        ports:
+        - containerPort: 80
+
+2) Exposing the container on nodeport so that it is accessible from Web
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-pod-service
+spec:
+  type: NodePort
+  selector:
+    app: first-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30011
+
+
 app: first-pod: Ensure your pod has the label app: first-pod.
 port: 80: Port exposed by the service.
 targetPort: 80: The actual container port where your app is running.
-nodePort: 30009: External port accessible from your browser using http://<NodeIP>:30009.
+nodePort: 30011: External port accessible from your browser using http://<NodeIP>:30011.
 type: NodePort: Allows external access via the Node IP.
 
 Note: Ensure Syntax are correct and also the each parameter is case sensitive, please check thoroughly.

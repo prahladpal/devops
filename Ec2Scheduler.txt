@@ -1,0 +1,52 @@
+import boto3
+from datetime import datetime, timedelta
+
+ec2_client = boto3.client('ec2')
+cloudwatch_client = boto3.client('cloudwatch')
+
+def get_instance_cpu_utilization(instance_id):
+    end_time = datetime.utcnow()
+    start_time = end_time - timedelta(hours=1)
+
+    response = cloudwatch_client.get_metric_statistics(
+        Namespace='AWS/EC2',
+        MetricName='CPUUtilization',
+        Dimensions=[{'Name': 'InstanceId', 'Value': instance_id}],
+        StartTime=start_time,
+        EndTime=end_time,
+        Period=300,
+        Statistics=['Average']
+    )
+
+    data_points = response.get('Datapoints', [])
+    if not data_points:
+        print(f"No data points for instance {instance_id}")
+        return None
+
+    average_cpu_utilization = sum(dp['Average'] for dp in data_points) / len(data_points)
+    print(f"Instance {instance_id} has an average CPU utilization of {average_cpu_utilization:.2f}%")
+    return average_cpu_utilization
+
+def lambda_handler(event, context):
+    # Describe all running instances
+    response = ec2_client.describe_instances(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
+    
+    for reservation in response['Reservations']:
+        for instance in reservation['Instances']:
+            instance_id = instance['InstanceId']
+            print(f"Checking instance {instance_id}")
+
+            # Get CPU Utilization
+            cpu_utilization = get_instance_cpu_utilization(instance_id)
+            
+            # Check if CPU utilization is below 5% for over 1 hour
+            if cpu_utilization is not None and cpu_utilization < 5:
+                print(f"Instance {instance_id} is idle. Stopping the instance.")
+                ec2_client.stop_instances(InstanceIds=[instance_id])
+            else:
+                print(f"Instance {instance_id} is active. No action needed.")
+    
+    return {
+        'statusCode': 200,
+        'body': 'Checked instances for idleness and stopped where necessary.'
+    }

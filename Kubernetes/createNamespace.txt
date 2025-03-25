@@ -1,0 +1,10 @@
+1) Create a namespace, this can be clubbed as well with deployment file and can be created separately as well. create filname as firstpodns.yaml with below content -:
+
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: first-pod-ns
+
+--apply
+kubectl apply -f <filename>.yaml
+"kubectl get namespaces" to see all the namespaces.
