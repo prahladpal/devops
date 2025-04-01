@@ -1,0 +1,34 @@
+1) Creating a single container pod. Use the below yaml file (firstPod.yaml)
+--use the firstpod.yaml file
+2) this will create the 3 replicas of pods, running on control plane and worker nodes.
+apiVersion: apps/v1          --## Api Version to be specified
+kind: Deployment 			 --## what kind of yaml file
+metadata:
+  name: first-pod-deployment --## deployment name
+  spec: 					 --## Sepcification starts here
+  replicas: 3                --## how many replicas (based on cluster, i have 3)
+  selector:
+    matchLabels:
+      app: first-pod         --## Pod name
+  template:                  --## template of Pod creation (What are things to be included, like the container, port, if configMap)
+    metadata:
+      labels:
+        app: first-pod		 --## Matches the label of pod
+    spec:					 --## Specification of container
+      containers:
+      - name: k8-cluster     --## Container name
+        image: prahladpal/k8-cluster-html:1.0    --## image of container to be used, currently being pulled from Dockerhub
+        ports:
+        - containerPort: 80  --## Container port
+        volumeMounts:
+        - name: config-volume  --## Volumes to be used, like the configMap, which can be changed at runtime and the shared path to be declare.
+          mountPath: /usr/share/nginx/html/index.html  --## path of the file to be changed
+		  subPath: index.html  --## exact file name where the content will change.
+        - name: emptydir-volume  --## shared path name
+          mountPath: /tmp/emptyDir  --##Shared path location on container
+      volumes:
+       - name: config-volume    --## ConfigMap volume
+         configMap: 
+          name: first-configmap --## configMap name created using the configMap file
+       - name: emptydir-volume  --## emptyDir volume to be created
+         emptyDir: {}           --## syntax for empty dir.

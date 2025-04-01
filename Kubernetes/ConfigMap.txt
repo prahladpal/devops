@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: first-configmap
+data:
+ index.html: |
+  <html>
+   <body>
+      <h1>This is from K8 cluster using ConfigMap</h1>
+   </body>
+  </html>

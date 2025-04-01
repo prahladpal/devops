@@ -1,0 +1,222 @@
+    1  cd ~/.ssh
+    2  ls
+    3  sudo nano authorized_keys
+    4  cd ..
+    5  sudo apt update
+    6  kubectl
+    7  sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+    8  mkdir -p $HOME/.kube
+    9  kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+   10  kubectl get nodes
+   11  dpkg --get-selections | grep hold
+   12  sudo apt-mark unhold kubeadm
+   13  sudo apt-mark unhold kubectl
+   14  sudo apt-mark unhold kubelet
+   15  sudo apt-get remove --purge containerd
+   16  sudo apt-get autoremove
+   17  sudo apt-get autoclean
+   18  sudo apt-get update
+   19  sudo apt-get install containerd.io
+   20  sudo apt-get install docker-ce docker-ce-cli
+   21  kubectl get nodes
+   22  ls
+   23  mkdir Docker
+   24  ls
+   25  cd Docker
+   26  sudo nano index.html
+   27  sudo nano Dockerfile
+   28  docker build -t your-dockerhub-username/k8-cluster-html:1.0 .
+   29  docker build -t prahladpal/k8-cluster-html:1.0 .
+   30  sudo docker build -t prahladpal/k8-cluster-html:1.0 .
+   31  docker login
+   32  docker push prahladpal/k8-cluster-html:1.0
+   33  sudo docker push prahladpal/k8-cluster-html:1.0
+   34  docker images
+   35  sudo docker images
+   36  sudo docker tag 86d40ae6c3b2 prahladpal/k8-cluster-html:1.0
+   37  sudo docker images
+   38  sudo docker push prahladpal/k8-cluster-html:1.0
+   39  sudo docker login
+   40  sudo docker login --username=your-username
+   41  sudo docker login --username=prahladpal
+   42  sudo docker push prahladpal/k8-cluster-html:1.0
+   43  ls
+   44  cd ..
+   45  ls
+   46  mkdir kuber8
+   47  cd kuber8
+   48  sudo nano Deployment.yaml
+   49  kubectl apply -f Deployment.yaml
+   50  kubectl get pods
+   51  kubectl get services
+   52  sudo apt update
+   53  clear
+   54  ls
+   55  cd kuber8
+   56  ls
+   57  docker images
+   58  sudo docker images
+   59  sudo nano firstPod.yaml
+   60  kubectl create -f fisrtPod.yaml
+   61  sudo kubectl create -f fisrtPod.yaml
+   62  kubectl get pods
+   63  sudo kubectl create -f fisrtPod.yaml
+   64  sudo kubectl create -f firstPod.yaml
+   65  kubectl create -f firstPod.yaml
+   66  sudo nano firstPod.yaml
+   67  kubectl create -f firstPod.yaml
+   68  sudo nano firstPod.yaml
+   69  kubectl create -f firstPod.yaml
+   70  kubectl get pods
+   71  sudo docker loin
+   72  sudo docker login
+   73  kubectl get pods
+   74  kubectl describe pod first-pod
+   75  sudo nano firstPod.yaml
+   76  kubectl create -f firstPod.yaml
+   77  kubectl describe pod first-pod
+   78  kubectl get pods
+   79  kubectl create -f firstPod.yaml
+   80  kubectl delete pod first-pod
+   81  kubectl create -f firstPod.yaml
+   82  kubectl get pods
+   83  sudo nano service.yaml
+   84  kubectl apply -f service.yaml
+   85  kubectl apply --dry-run=client -f service.yaml
+   86  kubectl api-resources | grep service
+   87  kubectl get nodes
+   88  sudo nano service.yaml
+   89  kubectl apply -f service.yaml
+   90  sudo nano service.yaml
+   91  kubectl apply -f service.yaml
+   92  sudo nano service.yaml
+   93  kubectl apply -f service.yaml
+   94  sudo nano service.yaml
+   95  kubectl apply -f service.yaml
+   96  sudo nano service.yaml
+   97  kubectl apply -f service.yaml
+   98  kubectl get nodes
+   99  kubectl get service
+  100  curl http://localhost:30010
+  101  kubectl get svc -o wide
+  102  kubectl get pods
+  103  curl http://10.109.203.25:80
+  104  kubectl get endpoints my-service
+  105  kubectl get endpoints my-first-service
+  106  kubectl get pods
+  107  sudo nano service.yaml
+  108  ls
+  109  cat firstPod.yaml
+  110  ls
+  111  cat service.yaml
+  112  kubectl get pods
+  113  kubectl get svc -o wide
+  114  kubectl describe svc my-first-service
+  115  kubectl get svc -o wide
+  116  kubectl describe svc k8-cluster-service
+  117  kubectl get pods --show-labels
+  118  kubectl describe svc k8-cluster-service
+  119  kubectl describe svc my-first-service
+  120  sudo nano endpoints.yaml
+  121  kubectl apply -f endpoints.yaml
+  122  sudo nano endpoints.yaml
+  123  kubectl apply -f endpoints.yaml
+  124  sudo nano endpoints.yaml
+  125  kubectl apply -f endpoints.yaml
+  126  kubectl get endpoints my-service
+  127  sudo nano endpoints.yaml
+  128  kubectl get endpoints my-service
+  129  kubectl apply -f endpoints.yaml
+  130  kubectl get endpoints my-service
+  131  kubectl get endpoints my-first-service
+  132  kubectl describe svc my-first-service
+  133  kubectl get svc -o wide
+  134  curl http://10.109.203.25:30010
+  135  kubectl get svc -o wide
+  136  kubectl describe svc my-first-service
+  137  curl http://10.109.203.25:80
+  138  clear
+  139  ls
+  140  cd kuber8
+  141  ls
+  142  cat firstpod.yaml
+  143  ls
+  144  cat firstPod.yaml
+  145  kubectl get pods
+  146  kubectl delete pod first-pod
+  147  kubectl get pods
+  148  sudo nano firstPod.yaml
+  149  cat firstPod.yaml
+  150  kubectl apply -f firstpod.yaml
+  151  kubectl apply -f firstPod.yaml
+  152  kubectl get pods
+  153  kubectl describe pod first-pod
+  154  curl http://52.91.90.60:80
+  155  ls
+  156  cat service.yaml
+  157  kubectl apply -f service.yaml
+  158  kubectl describe svc my-first-service
+  159  ls
+  160  cat Deployment.yaml
+  161  sudo nano firstPod.yaml
+  162  sudo nano service.yaml
+  163  kubectl apply -f firstPod.yaml
+  164  kubectl apply -f service.yaml
+  165  sudo nano service.yaml
+  166  kubectl apply -f service.yaml
+  167  kubectl describe svc first-pod-service
+  168  ls
+  169  cd kuber8
+  170  ls
+  171  sudo nano sa.yaml
+  172  kubectl apply -f sa.yaml
+  173  kubectl get serviceaccount -n first-pod-ns
+  174  sudo nano roles.yaml
+  175  kubectl apply -f roles.yaml
+  176  kubectl get roles -n first-pod-ns
+  177  sudo nano rolebinding.yaml
+  178  kubectl apply rolebinding.yaml
+  179  kubectl apply -f rolebinding.yaml
+  180  kubectl get rolebindings -n first-pod-ns
+  181  ls
+  182  cd kuber8
+  183  sudo nano nspod.yaml
+  184  kubectl apply --dry-run=client -f nspod.yaml
+  185  kubectl apply -f nspod.yaml
+  186  sudo nano nspod.yaml
+  187  kubectl apply -f nspod.yaml
+  188  kubectl get all --all-namespaces
+  189  kubectl get pods -n first-pod-ns
+  190  kubectl get pods
+  191  kubectl delete first-ns-pod-deployment-99d8c47b7-68pm9
+  192  kubectl get pods
+  193  kubectl delete first-ns-pod-
+  194  kubectl delete first-ns-pod
+  195  kubectl delete first-ns-pod-deployment-99d8c47b7-nf7lx
+  196  kubectl delete deployment.apps/first-ns-pod-deployment
+  197  kubectl get pods
+  198  kubectl get namespaces
+  199  sudo nano firstPodNs.yaml
+  200  kubectl apply -f firstPodNs.yaml
+  201  kubectl get namespaces
+  202  sudo nano secondpodwithns.yaml
+  203  kubectl apply -f secondpodwithns.yaml
+  204  sudo nano secondpodwithns.yaml
+  205  kubectl apply -f secondpodwithns.yaml
+  206  kubectl get pods
+  207  kubectl get pods -n first-pod-ns
+  208  sudo nano firstpodnsservice.yaml
+  209  kubectl apply -f firstpodnsservice.yaml
+  210  sudo nano firstpodnsservice.yaml
+  211  kubectl apply -f firstpodnsservice.yaml
+  212  sudo nano firstpodnsservice.yaml
+  213  kubectl apply -f firstpodnsservice.yaml
+  214  kubectl describe svc firstpodnsservice.yaml
+  215  kubectl describe svc fisrt-ns-service
+  216  kubectl describe svc fisrt-ns-service -n first-pod-ns
+  217  kubectl get sa
+  218  history
+  219  history > commands.txt
+
+kubectl apply -f configmap.yaml
+

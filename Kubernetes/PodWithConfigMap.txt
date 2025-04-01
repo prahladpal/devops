@@ -1,0 +1,76 @@
+1) Creating a pod and deploy usng deployment kind. Use the below yaml file (firstPod.yaml)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-pod-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: first-pod
+  template:
+    metadata:
+      labels:
+        app: first-pod
+    spec:
+      containers:
+      - name: k8-cluster
+        image: prahladpal/k8-cluster-html:1.0
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/share/nginx/html/index.html
+		  subPath: index.html
+        - name: emptydir-volume
+          mountPath: /tmp/emptyDir
+      volumes:
+       - name: config-volume
+         configMap: 
+          name: first-configmap
+       - name: emptydir-volume
+         emptyDir: {}
+
+###
+configMap: Mounts the index.html from ConfigMap to the container's /usr/share/nginx/html directory.
+emptyDir: Provides a temporary directory at /tmp/emptydir inside the container, which is removed when the pod is deleted.
+###
+
+2) Exposing the container on nodeport so that it is accessible from Web
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-pod-service
+spec:
+  type: NodePort
+  selector:
+    app: first-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30011
+
+
+app: first-pod: Ensure your pod has the label app: first-pod.
+port: 80: Port exposed by the service.
+targetPort: 80: The actual container port where your app is running.
+nodePort: 30011: External port accessible from your browser using http://<NodeIP>:30011.
+type: NodePort: Allows external access via the Node IP.
+
+Note: Ensure Syntax are correct and also the each parameter is case sensitive, please check thoroughly.
+
+
+Command -:
+Check syntax -:
+kubectl apply --dry-run=client -f service.yaml
+
+Apply -:
+kubectl apply -f service.yaml
+
+Describe the service -
+kubectl describe svc my-first-service
+
+make sure the lables matches
