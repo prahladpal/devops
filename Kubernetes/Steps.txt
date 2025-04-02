@@ -22,9 +22,8 @@ metadata:
         - containerPort: 80  --## Container port
         volumeMounts:
         - name: config-volume  --## Volumes to be used, like the configMap, which can be changed at runtime and the shared path to be declare.
-          mountPath: /usr/share/nginx/html/index.html  --## path of the file to be changed
-		  subPath: index.html  --## exact file name where the content will change.
-        - name: emptydir-volume  --## shared path name
+          mountPath: /usr/share/nginx/html  --## path of the file to be changed
+		- name: emptydir-volume  --## shared path name
           mountPath: /tmp/emptyDir  --##Shared path location on container
       volumes:
        - name: config-volume    --## ConfigMap volume
@@ -32,3 +31,11 @@ metadata:
           name: first-configmap --## configMap name created using the configMap file
        - name: emptydir-volume  --## emptyDir volume to be created
          emptyDir: {}           --## syntax for empty dir.
+
+To get the changes of configMap effect, we must restart the Pods. Either delete like the below command -:
+kubectl delete pod -l app=first-pod
+kubectl delete pod -l app=<pod name>
+
+Or do a force restart using
+kubectl rollout restart deployment first-pod-deployment
+kubectl rollout restart deployment <deployment name>
