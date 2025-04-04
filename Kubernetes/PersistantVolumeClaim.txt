@@ -1,0 +1,61 @@
+1) Persistent Volume (PV) and Persistent Volume Claim (PVC) in Kubernetes is used to provide persistent storage to the Pod
+##How to use it ?
+a) Create the Persistant Volume with specific storage.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: my-pv
+spec:
+ capacity:
+  storage: 1Gi
+ accessModes:
+  - ReadWriteOnce
+ persistentVolumeReclaimPolicy: Retain
+ hostPath:
+  path: /mnt/data
+
+kubectl apply -f <yaml file name>
+
+b) claim the persistent volume using below yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: my-pvc
+spec:
+ accessModes:
+  - ReadWriteOnce
+ resources:
+  requests:
+   storage: 300Mi
+
+kubectl apply -f <yaml file name>
+
+c) Assosciate the pod with Persitent Volume
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: third-pod-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: third-pod
+  template:
+    metadata:
+      labels:
+        app: third-pod
+    spec:
+      containers:
+      - name: k8-cluster
+        image: prahladpal/k8-cluster-html:1.0
+        ports:
+        - containerPort: 80
+        volumeMounts:
+         - mountPath: /usr/share/nginx/html
+           name: storage
+      volumes:
+       - name: storage
+         persistentVolumeClaim:
+          claimName: my-pvc
+
+kubectl apply -f <yaml file name>
