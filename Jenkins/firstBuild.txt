@@ -1,0 +1,61 @@
+Prerequisite:
+Jenkins Master/Slave is set up
+
+Jenkins Slave has:
+a)kubectl installed and configured with kubeconfig pointing to the cluster.
+b)Access to the Kubernetes cluster.
+c)Your deployment files (like deployment.yaml, service.yaml, etc.) are in a Git repository or Jenkins workspace.
+
+step 1: Configure the creadentials
+1)Go to Jenkins Dashboard → Manage Jenkins → credentials
+2)Choose a domain (e.g., (global))
+3)Click "Add Credentials"
+4)Choose:Kind: SSH Username with Private Key
+5)Username: ubuntu (or ec2-user depending on the OS)
+6)Private Key: Select "Enter directly" -> Paste the entire contents of your .pem (keypair) file
+7)Save it and give it a clear ID (e.g., ec2-key)
+
+step 2: create a node agent
+1)Go to Jenkins Dashboard → Manage Jenkins → Manage Nodes and Clouds
+2)Click "New Node", give it a name (e.g., k8s-agent)
+3)Select Permanent Agent, and configure:
+4)Number of executors: 1
+5)Remote root directory: /home/ubuntu/jenkins
+6)Labels: k8s (important to tie to jobs)
+7)Launch method: Usually SSH (set IP, credentials, etc.)
+give the private IP of Slave server, Select the credential set up in first 1. It is basically the SSH keyPair (.pem) file of instance.
+8)Save and make sure the agent is online
+
+step 3: Build (Create a new Item)
+1. Create a Freestyle Project
+2. Open Jenkins → Click "New Item"
+3. Enter name like: K8s-Deployment-Auto
+4. Select Freestyle Project → Click OK
+5. Configure Git Repository 
+6. In Source Code Management, choose Git
+7. Enter your Git repo URL
+8. Add credentials if required (if its public, then by giving the path of the repo will work)
+9. Triggers -> Select web hook if you want the build to trigger as soon as there is a commit in the branch.
+10. Add Build Step to Deploy to Kubernetes
+11. Go to Build → Add build step → Execute shell
+12. Paste the following:
+echo "Deploying to Kubernetes..."
+
+# Set KUBECONFIG if not global
+# export KUBECONFIG=$HOME/.kube/config
+
+# Optionally build and push Docker image (skip if image is already built)
+# docker build -t <dockerhub-username>/<image-name>:<tag> .
+# docker push <dockerhub-username>/<image-name>:<tag>
+
+# Apply Kubernetes manifests
+kubectl apply -f Kubernetes/configMapJenkins.yaml
+# use the below if using first time
+##kubectl apply -f Kubernetes/jenkinspod.yaml
+##kubectl apply -f Kubernetes/jenkinspodservice.yaml
+# use below to restart the pods to get the change effect from configMap
+kubectl rollout restart deployment jenkins-pod-deployment -n default
+
+echo "Deployment Completed"
+
+12. Apply and Save. Execute the build
