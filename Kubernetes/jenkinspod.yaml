@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: jenkins-pod-deployment
+spec:
+ replicas: 3
+ selector:
+  matchLabels:
+   app: jenkins-pod
+ template:
+  metadata:
+   labels:
+    app: jenkins-pod
+  spec:
+   containers:
+   - name: jenkins-container
+     image: prahladpal/k8-cluster-html:1.0
+     ports:
+     - containerPort: 80
+     volumeMounts:
+     - name: config-volume
+       mountPath: /usr/share/nginx/html
+   volumes:
+   - name: config-volume
+     configMap:
+      name: my-config-jenkins

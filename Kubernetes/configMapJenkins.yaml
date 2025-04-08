@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: my-config-jenkins
+data:
+ index.html: |
+  <html>
+    <body>
+       <h1>This is for configMap test with Jenkins</h1>
+    </body>
+   </html>
