@@ -6,6 +6,6 @@ data:
  index.html: |
   <html>
     <body>
-       <h1>This is for configMap test with Jenkins</h1>
+       <h1>This is to test the jenkins build for k8 cluster for 2nd time</h1>
     </body>
    </html>
