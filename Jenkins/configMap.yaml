@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: ns-configmap
+data:
+ index.html: |
+  <html>
+   <body>
+      <h1>test for k8 namespace using ConfigMap</h1>
+   </body>
+  </html>
