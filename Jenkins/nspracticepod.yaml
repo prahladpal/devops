@@ -7,11 +7,11 @@ spec:
  replicas: 3
  selector:
   matchLabels:
-   app: my-nspod
+   app: my-nspod-n1
  template:
   metadata:
    labels:
-    app: my-nspod
+    app: my-nspod-n1
   spec:
    containers:
    - name: fourth-container
