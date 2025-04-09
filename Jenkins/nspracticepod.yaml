@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
  name: my-nspod-deployment
 spec:
- repolicas: 3
+ replicas: 3
  selector:
   matchLabels:
    app: my-nspod
