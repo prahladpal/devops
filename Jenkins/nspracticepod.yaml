@@ -8,12 +8,10 @@ spec:
  selector:
   matchLabels:
    app: my-nspod
-   namespace: my-4thdaypractice-ns
  template:
   metadata:
    labels:
     app: my-nspod
-    namespace: my-4thdaypractice-ns
   spec:
    containers:
    - name: fourth-container
