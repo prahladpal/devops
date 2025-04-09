@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
  name: my-nspod-deployment
+ namespace: my-4thdaypractice-ns
 spec:
  replicas: 3
  selector:
