@@ -10,3 +10,4 @@ spec:
  persistentVolumeReclaimPolicy: Retain
  hostPath:
   path: /mnt/pv/data
+  type: DirectoryOrCreate
