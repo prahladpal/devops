@@ -6,7 +6,7 @@ spec:
  capacity:
   storage: 1Gi
  acessModes:
-  ReadWriteOnce
+ - ReadWriteOnce
  persistentVolumeReclaimPolicy: Retain
  hostPath:
-  path: /mnt/data
+  path: /mnt/pv/data
