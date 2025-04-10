@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: my-pvpod5
+spec:
+ capacity:
+  storage: 1Gi
+ acessModes:
+  ReadWriteOnce
+ persistentVolumeReclaimPolicy: Retain
+ hostPath:
+  path: /mnt/data
