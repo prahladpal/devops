@@ -5,7 +5,7 @@ CREATE COMPUTE MODULE getGetResponse_Compute
 	BEGIN
 		-- CALL CopyMessageHeaders();
 		-- CALL CopyEntireMessage();
-		SET OutputRoot.JSON.Data.test.response='this is docker test';
+		SET OutputRoot.JSON.Data.test.response='this is docker test 1';
 		RETURN TRUE;
 	END;
 
