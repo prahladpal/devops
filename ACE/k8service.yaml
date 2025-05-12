@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ace-service
+spec:
+  type: NodePort
+  selector:
+    app: ace-server
+  ports:
+    - name: webui-port
+      protocol: TCP
+      port: 4414
+      targetPort: 4414
+      nodePort: 30001
+    - name: http-port
+      protocol: TCP
+      port: 7080
+      targetPort: 7080
+      nodePort: 30002
+    - name: soap-port
+      protocol: TCP
+      port: 7800
+      targetPort: 7800
+      nodePort: 30003

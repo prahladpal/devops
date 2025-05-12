@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace-bar-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ace-bar-deploy
+  template:
+    metadata:
+      labels:
+        app: ace-bar-deploy
+    spec:
+      containers:
+        - name: ace-container
+          image: your-registry/ace-custom:latest
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Starting multiple BAR file deployment..."
+              for bar in /deployments/*.bar; do
+                echo "Deploying $bar ..."
+                mqsideploy -e YOUR_EXECUTION_GROUP -a "$bar"
+              done
+              echo "All deployments completed. Keeping container alive..."
+              tail -f /dev/null
+          volumeMounts:
+            - name: bar-files
+              mountPath: /deployments
+      volumes:
+        - name: bar-files
+          configMap:  # Or use a PVC
+            name: multiple-bar-configmap

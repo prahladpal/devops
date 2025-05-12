@@ -1,0 +1,16 @@
+1) Create an EC2 Instance
+2) install the Kubernetes (use the steps mentioned in C:\Users\hp\Desktop\Project\k8masterUpdated.sh and C:\Users\hp\Desktop\Project\masteronly.sh)
+3) once kubernetes installed, install teh docker using "sudo apt install docker.io"
+4) prepare the deploymeny yaml file to pull the image from Docker hub (use k8aceimage)
+5) expose the admin port using the service.yaml file (use k8service)
+
+Deploy a bar file
+a) Create a configMap using the below command
+kubectl create configmap ace-bar-config --from-file=test.bar -o yaml --dry-run=client > bar-config.yaml
+
+The above will create teh bar-config.yaml
+
+b) update the deployment yaml file with configMap as volumeMount (usek8aceimage)
+c) update the service to expose port (use k8service)
+
+Once done. Expose the port from security groups in AWS console for the instance.
