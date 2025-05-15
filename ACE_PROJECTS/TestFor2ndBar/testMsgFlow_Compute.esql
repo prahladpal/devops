@@ -5,7 +5,7 @@ CREATE COMPUTE MODULE testMsgFlow_Compute
 	BEGIN
 		-- CALL CopyMessageHeaders();
 		-- CALL CopyEntireMessage();
-		SET OutputRoot.JSON.Data.test.response='this is docker test for the 2nd b ar as well with git checkin with auto deploy';
+		SET OutputRoot.JSON.Data.test.response='this is docker test for the 2nd b ar as well with git checkin with auto deploy t';
 		RETURN TRUE;
 	END;
 
