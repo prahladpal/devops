@@ -1,11 +1,11 @@
 
 
-CREATE COMPUTE MODULE testMsgFlow_Compute
+CREATE COMPUTE MODULE getAcewebhook_Compute
 	CREATE FUNCTION Main() RETURNS BOOLEAN
 	BEGIN
 		-- CALL CopyMessageHeaders();
 		-- CALL CopyEntireMessage();
-		SET OutputRoot.JSON.Data.test.response='this is docker test for the 3rd bar as well with git checkin test';
+		SET OutputRoot.JSON.Data.Test.Value = 'Test for webhook';
 		RETURN TRUE;
 	END;
 

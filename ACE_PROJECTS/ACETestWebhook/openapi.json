@@ -1,0 +1,30 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ACETestWebhook",
+    "version": "1.0.0",
+    "description": "ACETestWebhook"
+  },
+  "servers": [
+    {
+      "url": "/acetestwebhook/v1",
+      "description": "This will test the webhook to git"
+    }
+  ],
+  "components": {
+    "schemas": {}
+  },
+  "paths": {
+    "/Acewebhook": {
+      "description": "Webhook path test",
+      "get": {
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        },
+        "description": "get Webhook trigger"
+      }
+    }
+  }
+}
