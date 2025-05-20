@@ -5,7 +5,7 @@ CREATE COMPUTE MODULE getGetResponse_Compute
 	BEGIN
 		-- CALL CopyMessageHeaders();
 		-- CALL CopyEntireMessage();
-		SET OutputRoot.JSON.Data.test.response='this is docker test 1 with git checkin with e2e process';
+		SET OutputRoot.JSON.Data.test.response='get E2E git Webhook Test';
 		RETURN TRUE;
 	END;
 
