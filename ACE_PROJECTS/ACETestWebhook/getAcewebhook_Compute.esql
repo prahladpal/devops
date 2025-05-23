@@ -5,7 +5,7 @@ CREATE COMPUTE MODULE getAcewebhook_Compute
 	BEGIN
 		-- CALL CopyMessageHeaders();
 		-- CALL CopyEntireMessage();
-		SET OutputRoot.JSON.Data.Test.Value = 'E2E git Webhook Test';
+		SET OutputRoot.JSON.Data.Test.Value = 'E2E git Webhook Test from ACE';
 		RETURN TRUE;
 	END;
 
